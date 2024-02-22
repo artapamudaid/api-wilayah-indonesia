@@ -22,7 +22,7 @@ require_once('provinsi.php');
 
     <section class="content-wrapper">
         <h1>Wilayah Indonesia (API BPS)</h1>
-        <form>
+        <form method="post" action="result.php" target="_blank">
             <div class="form-group">
                 <label>Provinsi</label>
                 <select class="form-control" name="provinsi" id="provinsi" onchange="get_kabupaten()">
@@ -55,6 +55,9 @@ require_once('provinsi.php');
                         <option value="">-- Pilih Desa/Kelurahan --</option>
                     </select>
                 </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Testing</button>
             </div>
         </form>
     </section>
