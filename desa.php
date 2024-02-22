@@ -1,11 +1,14 @@
 <?php
-
+require('./helpers/constant.php');
 require('./helpers/wilayah_indonesia_helper.php');
 
-$level = "desa";
-$parent = $_POST['kecamatan'];
+$tahun = YEAR;
 
-$desa = getWilayah($level, $parent);
+$prov = $_POST['provinsi'];
+$kab = $_POST['kabupaten'];
+$kec = $_POST['kecamatan'];
+
+$desa = getDesa($tahun, $prov, $kab, $kec);
 
 $desa = json_decode($desa, TRUE);
 
@@ -13,8 +16,8 @@ echo '<div class="form-group">
 <label>Desa/Kelurahan</label>
 <select class="form-control" name="desa" id="desa">
     <option value="">-- Pilih Desa/Kelurahan --</option>';
-foreach ($desa as $des) {
-    echo '<option value="' . $des['kode_bps'] . '">' . $des['nama_bps'] . '</option>';
+foreach ($desa as $key => $value) {
+    echo '<option value="' . $key . '">' . $value . '</option>';
 }
 echo '</select>
 </div>';

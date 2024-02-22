@@ -1,10 +1,10 @@
 <?php
 
+require('./helpers/constant.php');
 require('./helpers/wilayah_indonesia_helper.php');
 
-$level = "provinsi";
-$parent = null;
+$tahun = YEAR;
 
-$provinsi = getWilayah($level, $parent);
+$provinsi = getProvinsi($tahun);
 
 $provinsi = json_decode($provinsi, TRUE);

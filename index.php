@@ -27,8 +27,8 @@ require_once('provinsi.php');
                 <label>Provinsi</label>
                 <select class="form-control" name="provinsi" id="provinsi" onchange="get_kabupaten()">
                     <option value="">-- Pilih Kabupaten/Kota --</option>
-                    <?php foreach ($provinsi as $prov) { ?>
-                        <option value="<?= $prov['kode_bps'] ?>"><?= $prov['nama_bps'] ?></option>
+                    <?php foreach ($provinsi as $key => $value) { ?>
+                        <option value="<?= $key ?>"><?= $value ?></option>
                     <?php  } ?>
                 </select>
             </div>
@@ -92,11 +92,13 @@ require_once('provinsi.php');
 
         function get_kecamatan() {
             var kabupaten = $('#kabupaten').val();
+            var provinsi = $('#provinsi').val();
 
             $.ajax({
                 url: 'kecamatan.php',
                 type: 'POST',
                 data: {
+                    'provinsi': provinsi,
                     'kabupaten': kabupaten
                 },
                 success: function(msg) {
@@ -111,13 +113,17 @@ require_once('provinsi.php');
         }
 
         function get_desa() {
+            var kabupaten = $('#kabupaten').val();
+            var provinsi = $('#provinsi').val();
             var kecamatan = $('#kecamatan').val();
 
             $.ajax({
                 url: 'desa.php',
                 type: 'POST',
                 data: {
-                    'kecamatan': kecamatan,
+                    'provinsi': provinsi,
+                    'kabupaten': kabupaten,
+                    'kecamatan': kecamatan
                 },
                 success: function(msg) {
                     $("#div_desa").html(msg);

@@ -1,81 +1,78 @@
 <?php
 
+require('./helpers/constant.php');
 require('./helpers/wilayah_indonesia_helper.php');
 
-function prov($param = null, $key = null)
+function prov($id = null)
 {
-    $level = "provinsi";
-    $parent = $param;
+    $tahun = YEAR;
 
-    $provinsi = getWilayah($level, $parent);
+    $provinsi = getProvinsi($tahun);
 
     $provinsi = json_decode($provinsi, TRUE);
 
     $prov = null;
-    foreach ($provinsi as $data) {
+    foreach ($provinsi as $key => $value) {
 
-        if ($data['kode_bps'] == $key) {
-            $prov = $data['nama_bps'];
+        if ($key == $id) {
+            $prov = $value;
         }
     }
 
     return $prov;
 }
 
-function kab($param = null, $key = null)
+function kab($prov = null, $id = null)
 {
-    $level = "kabupaten";
-    $parent = $param;
+    $tahun = YEAR;
 
-    $kabupaten = getWilayah($level, $parent);
+    $kabupaten = getKabupaten($tahun, $prov);
 
     $kabupaten = json_decode($kabupaten, TRUE);
 
     $kab = null;
-    foreach ($kabupaten as $data) {
+    foreach ($kabupaten as $key => $value) {
 
-        if ($data['kode_bps'] == $key) {
-            $kab = $data['nama_bps'];
+        if ($key == $id) {
+            $kab = $value;
         }
     }
 
     return $kab;
 }
 
-function kec($param = null, $key = null)
+function kec($prov = null, $kab = null, $id = null)
 {
-    $level = "kecamatan";
-    $parent = $param;
+    $tahun = YEAR;
 
-    $kecamatan = getWilayah($level, $parent);
+    $kecamatan = getKecamatan($tahun, $prov, $kab);
 
     $kecamatan = json_decode($kecamatan, TRUE);
 
     $kec = null;
-    foreach ($kecamatan as $data) {
+    foreach ($kecamatan as $key => $value) {
 
-        if ($data['kode_bps'] == $key) {
-            $kec = $data['nama_bps'];
+        if ($key == $id) {
+            $kec = $value;
         }
     }
 
     return $kec;
 }
 
-function des($param = null, $key = null)
+function des($prov = null, $kab = null, $kec = null, $id = null)
 {
-    $level = "desa";
-    $parent = $param;
+    $tahun = YEAR;
 
-    $desa = getWilayah($level, $parent);
+    $desa = getDesa($tahun, $prov, $kab, $kec);
 
     $desa = json_decode($desa, TRUE);
 
     $des = null;
-    foreach ($desa as $data) {
+    foreach ($desa as $key => $value) {
 
-        if ($data['kode_bps'] == $key) {
-            $des = $data['nama_bps'];
+        if ($key == $id) {
+            $des = $value;
         }
     }
 
@@ -106,7 +103,7 @@ function des($param = null, $key = null)
             <tr>
                 <th>Provinsi</th>
                 <th>:</th>
-                <td><?= prov(NULL, $_POST['provinsi']) ?></td>
+                <td><?= prov($_POST['provinsi']) ?></td>
             </tr>
             <tr>
                 <th>Kabupaten/Kota</th>
@@ -116,12 +113,12 @@ function des($param = null, $key = null)
             <tr>
                 <th>Kecamatan</th>
                 <th>:</th>
-                <td><?= kec($_POST['kabupaten'], $_POST['kecamatan']) ?></td>
+                <td><?= kec($_POST['provinsi'], $_POST['kabupaten'], $_POST['kecamatan']) ?></td>
             </tr>
             <tr>
                 <th>Desa</th>
                 <th>:</th>
-                <td><?= des($_POST['kecamatan'], $_POST['desa']) ?></td>
+                <td><?= des($_POST['provinsi'], $_POST['kabupaten'], $_POST['kecamatan'], $_POST['desa']) ?></td>
             </tr>
         </table>
     </section>
